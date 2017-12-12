@@ -55,9 +55,9 @@ public class Controller {
         }
         if(timedout) {
             view.newGameScreen();
-        }  //TODO now there must be map generation
-
-
+        }else{
+            model.generateMap();       //model generates the map
+        }
     }
 
     public void initReadyGameView(){

@@ -3,6 +3,7 @@ package client;
 public class Model {
     Integer playerno;
     private Player player;
+    private TileList tileList;
 
     Model(){};
     
@@ -13,6 +14,14 @@ public class Model {
         this.player.setLast_name(lastname);
         this.player.setAge(age);
         this.player.setNickname(nickname);
+    }
+
+    public TileList getTileList() {
+        return tileList;
+    }
+
+    public void setTileList(TileList tileList) {
+        this.tileList = tileList;
     }
 
     public Integer getPlayerno() {
@@ -34,4 +43,10 @@ public class Model {
     public String getNickname(){
         return this.player.getNickname();
     }
+
+    public void generateMap(){
+        MapGenerator mapGenerator = new MapGenerator();
+        setTileList(mapGenerator.generateMap(this.player.getMap_id()));
+    }
+
 }
