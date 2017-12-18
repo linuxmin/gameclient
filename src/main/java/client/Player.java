@@ -35,6 +35,8 @@ public class Player{
     @XmlElement(name="time_start")
     private  String time_start = new Timestamp(System.currentTimeMillis()).toString();
 
+    private Integer position;
+
     Player(){}  //default constructor for hibernate
 
    Player(Map map, Game game) {
@@ -113,5 +115,21 @@ public class Player{
         this.last_name = player.last_name;
         this.age = player.age;
         this.nickname = player.nickname;
+    }
+
+    public String getTime_start() {
+        return time_start;
+    }
+
+    public void setTime_start(String time_start) {
+        this.time_start = time_start;
+    }
+
+    public Integer getPosition() {
+        return position;
+    }
+
+    public void setPosition(Integer position) {
+        this.position = position;
     }
 }

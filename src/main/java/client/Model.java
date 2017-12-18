@@ -48,6 +48,12 @@ public class Model {
     public void generateMap(){
         MapGenerator mapGenerator = new MapGenerator();
         setTileList(mapGenerator.generateMap(this.player.getMap_id()));
+        for(int i = 0;i<31;i++){
+            if(tileList.getTiles().get(i).getCastle() == 1){
+                this.player.setPosition(i);
+                break;
+            }
+        }
     }
 
 }

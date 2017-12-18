@@ -35,6 +35,7 @@ public class Tile {
     private Integer map_id;
 
 
+
     Tile() { }
 
     Tile(Tile tile){

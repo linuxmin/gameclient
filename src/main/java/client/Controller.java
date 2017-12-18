@@ -26,6 +26,7 @@ public class Controller {
         view.getPlayerone().addActionListener(e -> initRegisterPlayerViewOne());
         view.getPlayertwo().addActionListener(e -> initRegisterPlayerViewTwo());
         view.getRegisterplayer().addActionListener(e -> initReadyGameView());
+        view.getMove().addActionListener(e -> initActionMove());
     }
 
     public void initMapGeneration(){
@@ -48,7 +49,7 @@ public class Controller {
             {
                 Thread.currentThread().interrupt();
             }
-            if(time==20){
+            if(time==10){
                // System.out.println("10 Seconds over!");
                 timedout = true;
                 break;
@@ -84,7 +85,7 @@ public class Controller {
                 {
                     Thread.currentThread().interrupt();
                 }
-                if(time==20){
+                if(time==10){
                     // System.out.println("10 Seconds over!");
                     timedout = true;
                     break;
@@ -101,12 +102,23 @@ public class Controller {
                     model.getTileList().getTiles().add(otherplayertiles.getTiles().get(i));
                 }
                 System.out.print(model.getTileList().getTiles().size() + "Mapsize");
-                view.halfMapScreen(model.getTileList());
+                view.halfMapScreen(model.getTileList(),0);
+                System.out.print(model.getPlayer().getPosition() + "Position");
+
             }
 
         }else{
             System.out.println(response.readEntity(Error.class).getMessage());
         }
+    }
+
+    public void initActionMove(){
+        TileList tileList = model.getTileList();
+        Integer position = model.getPlayer().getPosition();
+        position = position +1;
+        //tileList.getTiles().get(position);
+        System.out.print("Moving");
+        view.halfMapScreen(tileList,position);
     }
 
     public void initReadyGameView(){

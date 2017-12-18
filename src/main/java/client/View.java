@@ -15,6 +15,7 @@ public class View {
     private JButton playerone = new JButton("Player 1");
     private JButton playertwo = new JButton("Player 2");
     private JButton registerplayer = new JButton("RegisterPlayer");
+    private JButton move = new JButton("move");
     private JTextField firstname;
     private JTextField lastname;
     private JTextField age;
@@ -84,8 +85,10 @@ public class View {
 
 
 
-    public void halfMapScreen(TileList tileList){
+    public void halfMapScreen(TileList tileList, Integer position){
         base.removeAll();
+        base.repaint();
+        base.revalidate();
         ImageIcon grassIcon = new ImageIcon("/home/laptop/gameclient/src/main/resources/grass.png");
         ImageIcon mountainIcon = new ImageIcon("/home/laptop/gameclient/src/main/resources/mountain.png");
         ImageIcon waterIcon = new ImageIcon("/home/laptop/gameclient/src/main/resources/water.png");
@@ -98,26 +101,38 @@ public class View {
 
         for(int i = 63 ; i>=0; i--){
             if(tileList.getTiles().get(i).getType() == 1) {
-                if(tileList.getTiles().get(i).getCastle() ==1){
+                if(tileList.getTiles().get(i).getCastle() ==1 && position == 0){
                     if(i<31) {
                         labels[i] = new JLabel(playerIcon);
                     }else{
                         labels[i] = new JLabel(opponentIcon);
                     }
-                }else {
-                    labels[i] = new JLabel(grassIcon);
+                }
+                else {
+                    if(i != position) {
+                        labels[i] = new JLabel(grassIcon);
+                    }else{
+                        labels[i] = new JLabel(playerIcon);
+                    }
                 }
                 System.out.println("Grass" + i);
             }else if(tileList.getTiles().get(i).getType() == 2){
-                labels[i] = new JLabel(mountainIcon);
-                System.out.println("Mountain" + i);
+                if(i != position) {
+                    labels[i] = new JLabel(mountainIcon);
+                    System.out.println("Mountain" + i);
+                }else{
+                    labels[i] = new JLabel(playerIcon);
+                }
             }else{
                 labels[i] = new JLabel(waterIcon);
                 System.out.println("Water" + i);
             }
             base.add(labels[i]);
         }
+        gamewindow.repaint();
+        gamewindow.revalidate();
         gamewindow.pack();
+        gamewindow.setVisible(true);
     }
 
     public JButton getPlayerone() {
@@ -234,6 +249,22 @@ public class View {
 
     public JLabel getNicknamelabel() {
         return nicknamelabel;
+    }
+
+    public JButton getMove() {
+        return move;
+    }
+
+    public void setMove(JButton move) {
+        this.move = move;
+    }
+
+    public JLabel getGamestatus() {
+        return gamestatus;
+    }
+
+    public void setGamestatus(JLabel gamestatus) {
+        this.gamestatus = gamestatus;
     }
 
     public void setNicknamelabel(JLabel nicknamelabel) {
