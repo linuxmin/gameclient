@@ -1,6 +1,10 @@
 package client;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.util.ArrayList;
+import javax.imageio.ImageIO;
 import javax.swing.*;
 
 
@@ -20,16 +24,18 @@ public class View {
     private JLabel agelabel;
     private JLabel nicknamelabel;
     private JLabel gamestatus;
-    private Container base;
+    private JPanel base;
 
     public View(){
         gamewindow = new GamewindowJFrame();  //creating the gamewindow with extended jframe class
         /*
         initialise and set the layout where the content will be added and removed dynamically
          */
-        base = gamewindow.getContentPane();
-        base.setLayout(new FlowLayout());
+        base = new JPanel();
+        gamewindow.getContentPane().add(base);
+        base.setLayout(new GridLayout(8,8));
     }
+
 
     public void newGameScreen(){
         base.removeAll();
@@ -76,6 +82,44 @@ public class View {
         gamewindow.pack();
     }
 
+
+
+    public void halfMapScreen(TileList tileList){
+        base.removeAll();
+        ImageIcon grassIcon = new ImageIcon("/home/laptop/gameclient/src/main/resources/grass.png");
+        ImageIcon mountainIcon = new ImageIcon("/home/laptop/gameclient/src/main/resources/mountain.png");
+        ImageIcon waterIcon = new ImageIcon("/home/laptop/gameclient/src/main/resources/water.png");
+        ImageIcon playerIcon = new ImageIcon("/home/laptop/gameclient/src/main/resources/player.png");
+        ImageIcon opponentIcon = new ImageIcon("/home/laptop/gameclient/src/main/resources/opponent.png");
+
+
+
+        JLabel labels[] = new JLabel[(64)];
+
+        for(int i = 63 ; i>=0; i--){
+            if(tileList.getTiles().get(i).getType() == 1) {
+                if(tileList.getTiles().get(i).getCastle() ==1){
+                    if(i<31) {
+                        labels[i] = new JLabel(playerIcon);
+                    }else{
+                        labels[i] = new JLabel(opponentIcon);
+                    }
+                }else {
+                    labels[i] = new JLabel(grassIcon);
+                }
+                System.out.println("Grass" + i);
+            }else if(tileList.getTiles().get(i).getType() == 2){
+                labels[i] = new JLabel(mountainIcon);
+                System.out.println("Mountain" + i);
+            }else{
+                labels[i] = new JLabel(waterIcon);
+                System.out.println("Water" + i);
+            }
+            base.add(labels[i]);
+        }
+        gamewindow.pack();
+    }
+
     public JButton getPlayerone() {
         return playerone;
     }
@@ -96,7 +140,7 @@ public class View {
         return base;
     }
 
-    public void setBase(Container base) {
+    public void setBase(JPanel base) {
         this.base = base;
     }
 

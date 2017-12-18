@@ -22,6 +22,7 @@ public class Model {
 
     public void setTileList(TileList tileList) {
         this.tileList = tileList;
+        this.tileList.setPlayer_id(player.getPlayer_id());
     }
 
     public Integer getPlayerno() {
