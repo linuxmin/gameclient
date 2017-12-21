@@ -16,8 +16,8 @@ public class MapGenerator {
         Random random = new Random();
         Integer randomtype = 0;
         Integer randomcastle = 0;
-        for(int i=1;i<=4;i++){
-            for(int j=1;j<=8;j++){
+        for(int i=0;i<=3;i++){
+            for(int j=0;j<=7;j++){
                 Tile tile = new Tile();
                 tile.setMap_id(map_id);
                 tile.setX(j);
@@ -30,6 +30,7 @@ public class MapGenerator {
                         tile.setType(1);
                         if(randomcastle > 5 && castle > 0){
                             tile.setCastle(1);
+                            tile.setPosition(1);
                             castle = 0;
                         }
                         break;

@@ -9,6 +9,7 @@ import static java.lang.Integer.parseInt;
 public class Controller {
     private Model model;
     private View view;
+    private GameView gameView;
 
     public Controller(Model model, View view){
         this.model = model;
@@ -21,12 +22,20 @@ public class Controller {
 
     }
 
+    public GameView getGameView() {
+        return gameView;
+    }
+
+    public void setGameView(GameView gameView) {
+        this.gameView = gameView;
+    }
+
     public void initController(){
         view.getNewgame().addActionListener(e -> initPlayerNoView()); //using lambdas to have nice and short code :)
         view.getPlayerone().addActionListener(e -> initRegisterPlayerViewOne());
         view.getPlayertwo().addActionListener(e -> initRegisterPlayerViewTwo());
         view.getRegisterplayer().addActionListener(e -> initReadyGameView());
-        view.getMove().addActionListener(e -> initActionMove());
+        //view.getMove().addActionListener(e -> initActionMove());
     }
 
     public void initMapGeneration(){
@@ -37,7 +46,7 @@ public class Controller {
         }
         Integer time = 0;
         Boolean timedout = false;
-        while(!timedout){
+        while(timedout){
             time = time +1;
             //every second the client asks if game is ready
             // if second player needs more than 20 seconds for registering, the new game view will be shown
@@ -55,7 +64,7 @@ public class Controller {
                 break;
             }
         }
-        if(!timedout) {
+        if(timedout) {
             view.newGameScreen();
         }else{
             model.generateMap();       //model generates the map
@@ -102,24 +111,20 @@ public class Controller {
                     model.getTileList().getTiles().add(otherplayertiles.getTiles().get(i));
                 }
                 System.out.print(model.getTileList().getTiles().size() + "Mapsize");
-                view.halfMapScreen(model.getTileList(),0);
-                System.out.print(model.getPlayer().getPosition() + "Position");
-
+                GameView gameView = new GameView(model.getTileList());
+                view.initPlayView(gameView);
             }
 
         }else{
             System.out.println(response.readEntity(Error.class).getMessage());
         }
+
+
+
+
     }
 
-    public void initActionMove(){
-        TileList tileList = model.getTileList();
-        Integer position = model.getPlayer().getPosition();
-        position = position +1;
-        //tileList.getTiles().get(position);
-        System.out.print("Moving");
-        view.halfMapScreen(tileList,position);
-    }
+
 
     public void initReadyGameView(){
         String firstname = view.getFirstname().getText();

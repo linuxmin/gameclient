@@ -26,6 +26,11 @@ public class View {
     private JLabel nicknamelabel;
     private JLabel gamestatus;
     private JPanel base;
+    private ImageIcon grassIcon = new ImageIcon("/home/linuxmin/gameclient/src/main/resources/grass.png");
+    private ImageIcon mountainIcon = new ImageIcon("/home/linuxmin/gameclient/src/main/resources/mountain.png");
+    private ImageIcon waterIcon = new ImageIcon("/home/linuxmin/gameclient/src/main/resources/water.png");
+    private ImageIcon playerIcon = new ImageIcon("/home/linuxmin/gameclient/src/main/resources/player.png");
+    private ImageIcon opponentIcon = new ImageIcon("/home/linuxmin/gameclient/src/main/resources/opponent.png");
 
     public View(){
         gamewindow = new GamewindowJFrame();  //creating the gamewindow with extended jframe class
@@ -37,6 +42,14 @@ public class View {
         base.setLayout(new GridLayout(8,8));
     }
 
+    public void initPlayView(GameView gameView){
+        base.removeAll();
+        base.setLayout(null);
+        gamewindow.setSize(800,800);
+        base.add(gameView);
+        base.revalidate();
+        base.repaint();
+    }
 
     public void newGameScreen(){
         base.removeAll();
@@ -85,55 +98,7 @@ public class View {
 
 
 
-    public void halfMapScreen(TileList tileList, Integer position){
-        base.removeAll();
-        base.repaint();
-        base.revalidate();
-        ImageIcon grassIcon = new ImageIcon("/home/laptop/gameclient/src/main/resources/grass.png");
-        ImageIcon mountainIcon = new ImageIcon("/home/laptop/gameclient/src/main/resources/mountain.png");
-        ImageIcon waterIcon = new ImageIcon("/home/laptop/gameclient/src/main/resources/water.png");
-        ImageIcon playerIcon = new ImageIcon("/home/laptop/gameclient/src/main/resources/player.png");
-        ImageIcon opponentIcon = new ImageIcon("/home/laptop/gameclient/src/main/resources/opponent.png");
 
-
-
-        JLabel labels[] = new JLabel[(64)];
-
-        for(int i = 63 ; i>=0; i--){
-            if(tileList.getTiles().get(i).getType() == 1) {
-                if(tileList.getTiles().get(i).getCastle() ==1 && position == 0){
-                    if(i<31) {
-                        labels[i] = new JLabel(playerIcon);
-                    }else{
-                        labels[i] = new JLabel(opponentIcon);
-                    }
-                }
-                else {
-                    if(i != position) {
-                        labels[i] = new JLabel(grassIcon);
-                    }else{
-                        labels[i] = new JLabel(playerIcon);
-                    }
-                }
-                System.out.println("Grass" + i);
-            }else if(tileList.getTiles().get(i).getType() == 2){
-                if(i != position) {
-                    labels[i] = new JLabel(mountainIcon);
-                    System.out.println("Mountain" + i);
-                }else{
-                    labels[i] = new JLabel(playerIcon);
-                }
-            }else{
-                labels[i] = new JLabel(waterIcon);
-                System.out.println("Water" + i);
-            }
-            base.add(labels[i]);
-        }
-        gamewindow.repaint();
-        gamewindow.revalidate();
-        gamewindow.pack();
-        gamewindow.setVisible(true);
-    }
 
     public JButton getPlayerone() {
         return playerone;

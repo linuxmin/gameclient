@@ -34,7 +34,7 @@ public class Tile {
     @XmlElement(name="map_id")
     private Integer map_id;
 
-
+    private Integer position = 0;
 
     Tile() { }
 
@@ -45,6 +45,15 @@ public class Tile {
         this.type = tile.getType();
         this.treasure = tile.getTreasure();
     }
+
+    public Integer getPosition() {
+        return position;
+    }
+
+    public void setPosition(Integer position) {
+        this.position = position;
+    }
+
     public Integer getTile_id() {
         return tile_id;
     }
