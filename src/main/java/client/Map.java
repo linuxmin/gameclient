@@ -21,9 +21,7 @@ public class Map{
     private Integer player_id;
 
     @XmlElement(name="time_start_generation")
-    private Timestamp time_start_generation;
-
-
+    private Timestamp time_start_generation = new Timestamp(System.currentTimeMillis());
 
     @XmlElement(name="time_end_generation")
     private Timestamp time_end_generation;

@@ -12,7 +12,7 @@ public class POSTRegisterNewPlayer {
 
     public Response registerPlayerXML(Player player) {
         Response response = client.target(playerwebTarget).request(MediaType.APPLICATION_XML_TYPE).post(Entity.entity(player, MediaType.APPLICATION_XML_TYPE));
-        System.out.println(response.getStatus());
+        System.out.println(response.getStatus() + "Player");
         return response;
     }
 }

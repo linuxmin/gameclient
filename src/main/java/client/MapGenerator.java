@@ -24,6 +24,7 @@ public class MapGenerator {
                 tile.setY(i);
                 randomtype = Math.abs(random.nextInt()) % 3 + 1;
                 randomcastle = Math.abs(random.nextInt()) % 20 + 1;
+                tile.setCastle(0);
                 switch(randomtype){
                     case 1:
                         tile.setType(1);

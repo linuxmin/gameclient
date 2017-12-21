@@ -2,6 +2,7 @@ package client;
 
 import javax.ws.rs.core.Response;
 import java.awt.*;
+import java.util.concurrent.TimeoutException;
 
 import static java.lang.Integer.parseInt;
 
@@ -25,6 +26,7 @@ public class Controller {
         view.getPlayerone().addActionListener(e -> initRegisterPlayerViewOne());
         view.getPlayertwo().addActionListener(e -> initRegisterPlayerViewTwo());
         view.getRegisterplayer().addActionListener(e -> initReadyGameView());
+        view.getMove().addActionListener(e -> initActionMove());
     }
 
     public void initMapGeneration(){
@@ -35,7 +37,7 @@ public class Controller {
         }
         Integer time = 0;
         Boolean timedout = false;
-        while(getReadyGame.getGameStatus(player_id).getStatus() != 200){
+        while(!timedout){
             time = time +1;
             //every second the client asks if game is ready
             // if second player needs more than 20 seconds for registering, the new game view will be shown
@@ -47,17 +49,76 @@ public class Controller {
             {
                 Thread.currentThread().interrupt();
             }
-            if(time==20){
+            if(time==10){
                // System.out.println("10 Seconds over!");
                 timedout = true;
                 break;
             }
         }
-        if(timedout) {
+        if(!timedout) {
             view.newGameScreen();
         }else{
             model.generateMap();       //model generates the map
+            initMapView();
         }
+    }
+
+    public void initMapView(){
+        POSTMapTiles postMapTiles = new POSTMapTiles();
+        GETFullMap getFullMap = new GETFullMap();
+        TileList tileList = model.getTileList();
+        TileList otherplayertiles = new TileList();
+        Response response = postMapTiles.registerMapXML(tileList);
+        if(response.getStatus() == 200){
+            Integer time = 0;
+            Boolean timedout = false;
+            System.out.println(model.getPlayer().getMap_id() + " MapID");
+            while(!timedout){
+                time = time +1;
+                //every second the client asks if game is ready
+                // if second player needs more than 20 seconds for registering, the new game view will be shown
+                try
+                {
+                    Thread.sleep(1000);
+                }
+                catch(InterruptedException ex)
+                {
+                    Thread.currentThread().interrupt();
+                }
+                if(time==10){
+                    // System.out.println("10 Seconds over!");
+                    timedout = true;
+                    break;
+                }
+            }
+
+            if(!timedout){
+
+            }else {
+                Response map = getFullMap.getFullMap(model.getPlayer().getMap_id());
+                otherplayertiles = map.readEntity(TileList.class);
+               // int j = 32;
+                for(int i = 31; i>=0; i--){
+                    model.getTileList().getTiles().add(otherplayertiles.getTiles().get(i));
+                }
+                System.out.print(model.getTileList().getTiles().size() + "Mapsize");
+                view.halfMapScreen(model.getTileList(),0);
+                System.out.print(model.getPlayer().getPosition() + "Position");
+
+            }
+
+        }else{
+            System.out.println(response.readEntity(Error.class).getMessage());
+        }
+    }
+
+    public void initActionMove(){
+        TileList tileList = model.getTileList();
+        Integer position = model.getPlayer().getPosition();
+        position = position +1;
+        //tileList.getTiles().get(position);
+        System.out.print("Moving");
+        view.halfMapScreen(tileList,position);
     }
 
     public void initReadyGameView(){
@@ -74,7 +135,7 @@ public class Controller {
         Response response = postRegisterNewPlayer.registerPlayerXML(model.getPlayer());
         if(response.getStatus() == 200){
             //view.getGamewindow().setTitle();
-            view.readyGameScreen();
+            //view.readyGameScreen();
             initMapGeneration();
         }
 
