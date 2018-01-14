@@ -53,12 +53,11 @@ dependencies {
 
 apply plugin: 'application'
 
-/*mainClassName = 'server.StandaloneRESTServer'
+mainClassName = 'client.TestView'
 
 jar {
     manifest {
         attributes 'Main-Class': mainClassName,
                 'Class-Path': configurations.runtime.files.collect {"$it.name"}.join(' ')
     }
-}*/
-
+}
