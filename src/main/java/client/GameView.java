@@ -9,7 +9,17 @@ public class GameView extends Applet {
 
     static int[][] tilemap;
     static int rows, columns;
-    private TileList tileList;
+    private TileList tileList = new TileList();
+
+
+    public TileList getTileList() {
+        return this.tileList;
+    }
+
+    public void setTileList(TileList tileList) {
+        this.tileList = tileList;
+        this.repaint();
+    }
 
     @Override
     public void init() {

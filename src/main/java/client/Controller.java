@@ -118,10 +118,6 @@ public class Controller {
         }else{
             System.out.println(response.readEntity(Error.class).getMessage());
         }
-
-
-
-
     }
 
 

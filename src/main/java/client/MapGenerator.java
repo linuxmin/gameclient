@@ -25,6 +25,7 @@ public class MapGenerator {
                 randomtype = Math.abs(random.nextInt()) % 3 + 1;
                 randomcastle = Math.abs(random.nextInt()) % 20 + 1;
                 tile.setCastle(0);
+                tile.setType(4);
                 switch(randomtype){
                     case 1:
                         tile.setType(1);
@@ -43,10 +44,10 @@ public class MapGenerator {
                         break;
                     case 3:
                         if(water > 0) {
-                            if (i == 1) {
+                            if (i == 0) {
                                 tile.setType(3);
                                 water = water - 1;
-                            }else if(i == 4 && borderwater > 0){
+                            }else if(i == 3 && borderwater > 0){
                                 tile.setType(3);
                                 water =water - 1;
                                 borderwater = borderwater -1;
