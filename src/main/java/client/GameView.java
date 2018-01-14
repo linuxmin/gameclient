@@ -4,6 +4,9 @@ import java.awt.Color;
 import java.awt.Frame;
 import java.awt.Graphics;
 import java.util.Random;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class GameView extends Applet {
 

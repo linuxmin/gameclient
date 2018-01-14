@@ -6,9 +6,14 @@ import java.io.File;
 import java.util.ArrayList;
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 
 public class View {
+    private static final Logger LOGGER = LogManager.getLogger(View.class);
+
     private GamewindowJFrame gamewindow;
     private JButton newgame = new JButton("New Game");
     private JButton exit = new JButton("Exit");
@@ -26,12 +31,12 @@ public class View {
     private JLabel nicknamelabel;
     private JLabel gamestatus;
     private JPanel base;
-    private ImageIcon grassIcon = new ImageIcon("/home/linuxmin/gameclient/src/main/resources/grass.png");
+   /* private ImageIcon grassIcon = new ImageIcon("/home/linuxmin/gameclient/src/main/resources/grass.png");
     private ImageIcon mountainIcon = new ImageIcon("/home/linuxmin/gameclient/src/main/resources/mountain.png");
     private ImageIcon waterIcon = new ImageIcon("/home/linuxmin/gameclient/src/main/resources/water.png");
     private ImageIcon playerIcon = new ImageIcon("/home/linuxmin/gameclient/src/main/resources/player.png");
     private ImageIcon opponentIcon = new ImageIcon("/home/linuxmin/gameclient/src/main/resources/opponent.png");
-
+*/
     public View(){
         gamewindow = new GamewindowJFrame();  //creating the gamewindow with extended jframe class
         /*
@@ -40,6 +45,7 @@ public class View {
         base = new JPanel();
         gamewindow.getContentPane().add(base);
         base.setLayout(new GridLayout(8,8));
+        LOGGER.info(base.getLayout().toString());
     }
 
     public void initPlayView(GameView gameView){
@@ -49,6 +55,8 @@ public class View {
         base.add(gameView);
         base.revalidate();
         base.repaint();
+        LOGGER.info(gamewindow.getSize().toString());
+
     }
 
     public void newGameScreen(){
@@ -87,6 +95,7 @@ public class View {
         base.add(nickname);
         base.add(registerplayer);
         gamewindow.pack();
+        LOGGER.info(base.getComponentCount());
     }
 
     public void readyGameScreen(){

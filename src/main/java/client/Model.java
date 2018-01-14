@@ -1,6 +1,12 @@
 package client;
 
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 public class Model {
+    private static final Logger LOGGER = LogManager.getLogger(Model.class);
+
     Integer playerno;
     private Player player;
     private TileList tileList;
@@ -36,6 +42,8 @@ public class Model {
     public Player getPlayer() {
         return player;
     }
+
+
 
     public void setPlayer(Player player) {
         this.player = player;

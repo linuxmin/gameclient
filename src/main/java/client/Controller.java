@@ -58,7 +58,7 @@ public class Controller {
             {
                 Thread.currentThread().interrupt();
             }
-            if(time==10){
+            if(time==2){
                // System.out.println("10 Seconds over!");
                 timedout = true;
                 break;
@@ -83,10 +83,7 @@ public class Controller {
             Boolean timedout = false;
             System.out.println(model.getPlayer().getMap_id() + " MapID");
             while(!timedout){
-                time = time +1;
-                //every second the client asks if game is ready
-                // if second player needs more than 20 seconds for registering, the new game view will be shown
-                try
+                time = time +1;try
                 {
                     Thread.sleep(1000);
                 }
@@ -94,7 +91,7 @@ public class Controller {
                 {
                     Thread.currentThread().interrupt();
                 }
-                if(time==10){
+                if(time==2){
                     // System.out.println("10 Seconds over!");
                     timedout = true;
                     break;
@@ -125,12 +122,18 @@ public class Controller {
     public void initReadyGameView(){
         String firstname = view.getFirstname().getText();
         String lastname = view.getLastname().getText();
-        Integer age = parseInt(view.getAge().getText().trim()); //TODO: catch exception!!
+        try {
+            Integer age = parseInt(view.getAge().getText().trim());
+            model.getPlayer().setAge(age);
+        }catch(NumberFormatException e){
+            e.printStackTrace();
+            Integer age = 1;
+            model.getPlayer().setAge(age);
+        }
         String nickname = view.getNickname().getText();
         Player player = new Player();
         model.getPlayer().setFirst_name(firstname);
         model.getPlayer().setLast_name(lastname);
-        model.getPlayer().setAge(age);
         model.getPlayer().setNickname(nickname);
         POSTRegisterNewPlayer postRegisterNewPlayer = new POSTRegisterNewPlayer();
         Response response = postRegisterNewPlayer.registerPlayerXML(model.getPlayer());
@@ -138,6 +141,8 @@ public class Controller {
             //view.getGamewindow().setTitle();
             //view.readyGameScreen();
             initMapGeneration();
+        }else{
+            initView();
         }
 
     }
@@ -148,30 +153,37 @@ public class Controller {
     public void initRegisterPlayerViewOne(){
         model.setPlayerno(1);
         GETStartNewGame getStartNewGame = new GETStartNewGame();
-        Response response = getStartNewGame.createPlayerXML(model.getPlayerno());
-        if(response.getStatus() == 200) {
-            model.setPlayer(response.readEntity(Player.class));
-            String player_id = model.getPlayer().getPlayer_id().toString();
-            String game_id = model.getPlayer().getGame_id().toString();
-            String map_id = model.getPlayer().getMap_id().toString();
-            view.getGamewindow().setTitle("Player ID: " + player_id + " Game ID: " + game_id + " Map ID: " + map_id);
-            view.playerDataScreen();
+        try {
+            Response response = getStartNewGame.createPlayerXML(model.getPlayerno());
+            if (response.getStatus() == 200) {
+                model.setPlayer(response.readEntity(Player.class));
+                String player_id = model.getPlayer().getPlayer_id().toString();
+                String game_id = model.getPlayer().getGame_id().toString();
+                String map_id = model.getPlayer().getMap_id().toString();
+                view.getGamewindow().setTitle("Player ID: " + player_id + " Game ID: " + game_id + " Map ID: " + map_id);
+                view.playerDataScreen();
+            }
+        }catch(Exception e){
+            view.newGameScreen();
         }
-
     }
     //TODO: if response status != 200, what to do?
 
     public void initRegisterPlayerViewTwo(){
         model.setPlayerno(2);
         GETStartNewGame getStartNewGame = new GETStartNewGame();
-        Response response = getStartNewGame.createPlayerXML(model.getPlayerno());
-        if(response.getStatus() == 200) {
-            model.setPlayer(response.readEntity(Player.class));
-            String player_id = model.getPlayer().getPlayer_id().toString();
-            String game_id = model.getPlayer().getGame_id().toString();
-            String map_id = model.getPlayer().getMap_id().toString();
-            view.getGamewindow().setTitle("Player ID: " + player_id + " Game ID: " + game_id + " Map ID: " + map_id);
-            view.playerDataScreen();
+        try {
+            Response response = getStartNewGame.createPlayerXML(model.getPlayerno());
+            if (response.getStatus() == 200) {
+                model.setPlayer(response.readEntity(Player.class));
+                String player_id = model.getPlayer().getPlayer_id().toString();
+                String game_id = model.getPlayer().getGame_id().toString();
+                String map_id = model.getPlayer().getMap_id().toString();
+                view.getGamewindow().setTitle("Player ID: " + player_id + " Game ID: " + game_id + " Map ID: " + map_id);
+                view.playerDataScreen();
+            }
+        }catch(Exception e){
+            view.newGameScreen();
         }
     }
 
